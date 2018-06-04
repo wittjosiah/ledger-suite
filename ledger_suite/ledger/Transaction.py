@@ -1,3 +1,6 @@
+import datetime
+from dateutil.parser import parse
+
 class Transaction():
     def __init__(self, date, payee, amounts, cleared = True, notes = '', tags = {}):
         self.date = date
@@ -19,7 +22,7 @@ class Transaction():
             amounts
 
     def __str__(self):
-        dateString = str(self.date)
+        dateString = parse(str(self.date)).strftime('%Y/%m/%d')
         clearedString = '*' if self.cleared == True else '!'
         amountsString = ''
         for amount in self.amounts:

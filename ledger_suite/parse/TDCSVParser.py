@@ -1,7 +1,9 @@
-from datetime import date
-from ledger_suite.parse.DataParser import DataParser
-from ledger_suite.ledger.Transaction import Transaction
-from ledger_suite.ledger.Amount import Amount
+import collections
+
+from datetime import datetime
+from parse.DataParser import DataParser
+from ledger.Transaction import Transaction
+from ledger.Amount import Amount
 
 class TDCSVParser(DataParser):
     def __init__(self, accountName):
@@ -9,8 +11,8 @@ class TDCSVParser(DataParser):
 
     def parse(self, entry):
        [month, day, year] = entry['transactionDate'].split('/')
-       transactionDate = date(int(year), int(month), int(day))
-       cleared = transactionDate <= date.today()
+       transactionDate = datetime(int(year), int(month), int(day))
+       cleared = transactionDate <= datetime.today()
        payee = entry['transactionDescription']
        amounts = []
        try:
@@ -32,10 +34,10 @@ class TDCSVParser(DataParser):
         return transactions
 
     def fields(self):
-        return {
-            'transactionDate': 'date',
-            'transactionDescription': 'string',
-            'withdrawl': 'float',
-            'deposit': 'float',
-            'balance': 'float'
-        }
+        return [
+            'transactionDate',
+            'transactionDescription',
+            'withdrawl',
+            'deposit',
+            'balance'
+        ]
