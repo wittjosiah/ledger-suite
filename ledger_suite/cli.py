@@ -16,7 +16,7 @@ def main(command, csv_file, ledger):
     click.echo('{0}, {1}.'.format(csv_file, command))
     data = parseCsv(csv_file)
     l = Ledger.parse(ledger)
-    l.entries.sort(key=lambda x:  datetime.datetime.strptime(x.date, '%Y/%m/%d'))
+    # l.entries.sort(key=lambda x:  datetime.datetime.strptime(x.date, '%Y/%m/%d'))
     wrapper(draw, data, l)
 
 

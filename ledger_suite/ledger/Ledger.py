@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from ledger.Transaction import Transaction
 from ledger.Amount import Amount
 
@@ -22,6 +23,8 @@ class Ledger():
         while line:
             if newTransaction.search(line):
                 date = re.search(transactionRegex, line).group(1)
+                [year, month, day] = date.split('/')
+                transactionDate = datetime(int(year), int(month), int(day))
                 cleared = re.search(transactionRegex, line).group(2)
                 payee = re.search(transactionRegex, line).group(3)
                 amounts = []
@@ -37,10 +40,8 @@ class Ledger():
                     else:
                         tag = {}
                     line = f.readline()
-                transactions += [Transaction(date, payee, amounts)]
+                transactions += [Transaction(transactionDate, payee, amounts)]
             else:
                 line = f.readline()
 
         return Ledger(transactions)
-
-
